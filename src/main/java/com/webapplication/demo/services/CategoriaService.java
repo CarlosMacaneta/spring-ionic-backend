@@ -4,6 +4,7 @@ import com.webapplication.demo.domain.Categoria;
 import com.webapplication.demo.repositories.CategoriaRepository;
 import com.webapplication.demo.services.exceptions.DataIntegrityException;
 import com.webapplication.demo.services.exceptions.ObjectNotFoundException;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -22,6 +23,10 @@ public class CategoriaService {
     public Categoria save(Categoria categoria) {
         categoria.setId(null);//para garantir que o objecto seja criado e nao actualizado
         return cr.save(categoria);
+    }
+    
+    public List<Categoria> findAllCategories() {
+        return cr.findAll();
     }
     
     public Categoria findById(Integer id) {

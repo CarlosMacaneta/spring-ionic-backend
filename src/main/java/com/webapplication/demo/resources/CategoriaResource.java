@@ -1,8 +1,11 @@
 package com.webapplication.demo.resources;
 
 import com.webapplication.demo.domain.Categoria;
+import com.webapplication.demo.dto.CategoriaDTO;
 import com.webapplication.demo.services.CategoriaService;
 import java.net.URI;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,6 +41,13 @@ public class CategoriaResource {
                 .path("/{id}").buildAndExpand(categoria.getId()).toUri();//retorna a uri do novo objecto criado
         
         return ResponseEntity.created(uri).build(); //retorna o codigo 201 que indica sucesso ao salvar novo objecto
+    }
+    
+    @RequestMapping(method = RequestMethod.GET)
+    public ResponseEntity<List<CategoriaDTO>> findAll() {
+        List<CategoriaDTO> categorias = service.findAllCategories().stream().map(c -> new CategoriaDTO(c)).collect(Collectors.toList());
+        
+        return ResponseEntity.ok().body(categorias);
     }
     
     /*

@@ -58,7 +58,7 @@ public class DemoApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         Categoria c1 = new Categoria(null, "Informatica");
-        Categoria c2 = new Categoria(null, "EscategoriaRepositoryitorio");
+        Categoria c2 = new Categoria(null, "Escritorio");
         
         Produto p1 = new Produto(null, "Computador", 2000.00);
         Produto p2 = new Produto(null, "Impressora", 800.00);
