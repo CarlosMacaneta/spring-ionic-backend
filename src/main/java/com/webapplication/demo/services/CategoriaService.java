@@ -8,6 +8,9 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 /**
@@ -52,5 +55,11 @@ public class CategoriaService {
         } catch(DataIntegrityViolationException e) {
             throw new DataIntegrityException("Nao e possivel apagar categoria com produtos");
         }
+    }
+    
+    public Page findPage(Integer page, Integer size, String direction, String orderBy) {
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.valueOf(direction), orderBy);
+        
+        return cr.findAll(pageRequest);
     }
 }
