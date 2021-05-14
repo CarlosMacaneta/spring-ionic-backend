@@ -25,7 +25,16 @@ public class CategoriaService {
     public Categoria findById(Integer id) {
         Optional<Categoria> categoria = cr.findById(id);
         
-        return categoria.orElseThrow(() -> new ObjectNotFoundException("Categoria não encontrada. Id:"
-                + " "+id+", Tipo: "+Categoria.class.getName()));
+        return categoria.orElseThrow(() -> new ObjectNotFoundException("Categoria não encontrada. Id:"+ " "+id));
+    }
+    
+    /**
+     * Este metodo edita/actualiza uma categoria.
+     * @param categoria
+     * @return 
+     */
+    public Categoria edit(Categoria categoria) {
+        findById(categoria.getId()); //certificando-se da exixstencia da categoria
+        return cr.save(categoria);
     }
 }

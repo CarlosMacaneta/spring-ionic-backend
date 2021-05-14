@@ -47,9 +47,17 @@ public class CategoriaResource {
         de um servco rest
      */
     @RequestMapping(value="/{id}", method=RequestMethod.GET)
-    public ResponseEntity<?> findById(@PathVariable Integer id) {
+    public ResponseEntity<Categoria> findById(@PathVariable Integer id) {
         
         Categoria categoria = service.findById(id);
         return ResponseEntity.ok().body(categoria);
+    }
+    
+    @RequestMapping(value="/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<Void> edit(@RequestBody Categoria categoria, @PathVariable Integer id) {
+        categoria.setId(id);
+        categoria = service.edit(categoria);
+        
+        return ResponseEntity.noContent().build();
     }
 }
