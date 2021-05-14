@@ -1,6 +1,5 @@
 package com.webapplication.demo.domain;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +22,7 @@ public class Categoria implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String nome;
-    @JsonManagedReference
+    
     @ManyToMany(mappedBy = "categorias")
     List<Produto> produtos = new ArrayList<>();
 

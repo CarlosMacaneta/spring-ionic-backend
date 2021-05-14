@@ -1,6 +1,7 @@
 package com.webapplication.demo.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.io.Serializable;
 import java.util.Objects;
@@ -34,7 +35,8 @@ public class Endereco implements Serializable {
         (or "back") link
         Addresses cannot serilize their clients
     */
-    @JsonBackReference
+    //@JsonBackReference
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name="cliente_id")
     private Cliente cliente;

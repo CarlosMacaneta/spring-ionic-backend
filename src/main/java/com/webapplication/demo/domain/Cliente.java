@@ -1,6 +1,6 @@
 package com.webapplication.demo.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.webapplication.demo.domain.enums.TipoCliente;
 import java.io.Serializable;
@@ -38,7 +38,7 @@ public class Cliente implements Serializable {
         between fields; and that its role is "parent" (or "forward") link
         The client can serialize its addresses
     */
-    @JsonManagedReference
+    //@JsonManagedReference
     @OneToMany(mappedBy = "cliente")
     private List<Endereco> enderecos = new ArrayList<>();
     
@@ -46,7 +46,7 @@ public class Cliente implements Serializable {
     @CollectionTable(name="telefone")
     private Set<String> telefones = new HashSet<>();
     
-    @JsonBackReference
+    @JsonIgnore
     @OneToMany(mappedBy = "cliente")
     private List<Pedido> pedidos = new ArrayList<>();
 
