@@ -2,9 +2,11 @@ package com.webapplication.demo.services;
 
 import com.webapplication.demo.domain.Categoria;
 import com.webapplication.demo.repositories.CategoriaRepository;
+import com.webapplication.demo.services.exceptions.DataIntegrityException;
 import com.webapplication.demo.services.exceptions.ObjectNotFoundException;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 /**
@@ -36,5 +38,14 @@ public class CategoriaService {
     public Categoria edit(Categoria categoria) {
         findById(categoria.getId()); //certificando-se da exixstencia da categoria
         return cr.save(categoria);
+    }
+    
+    public void delete(Integer id) {
+        findById(id);
+        try {
+            cr.deleteById(id);
+        } catch(DataIntegrityViolationException e) {
+            throw new DataIntegrityException("Nao e possivel apagar categoria com produtos");
+        }
     }
 }
