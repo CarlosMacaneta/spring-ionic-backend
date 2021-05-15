@@ -1,6 +1,7 @@
 package com.webapplication.demo.services;
 
 import com.webapplication.demo.domain.Categoria;
+import com.webapplication.demo.dto.CategoriaDTO;
 import com.webapplication.demo.repositories.CategoriaRepository;
 import com.webapplication.demo.services.exceptions.DataIntegrityException;
 import com.webapplication.demo.services.exceptions.ObjectNotFoundException;
@@ -61,5 +62,9 @@ public class CategoriaService {
         PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.valueOf(direction), orderBy);
         
         return cr.findAll(pageRequest);
+    }
+    
+    public Categoria fromDTO(CategoriaDTO categoriaDTO) {
+        return new Categoria(categoriaDTO.getId(), categoriaDTO.getNome());
     }
 }

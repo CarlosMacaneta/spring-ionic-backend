@@ -6,6 +6,7 @@ import com.webapplication.demo.services.CategoriaService;
 import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -36,11 +37,12 @@ public class CategoriaResource {
      * @return 
      */
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Void> create(@RequestBody Categoria categoria) { //@RequestBody converte o Json para objecto java
-        categoria = service.save(categoria);
+    public ResponseEntity<Void> create(@Valid @RequestBody CategoriaDTO categoria) { //@RequestBody converte o Json para objecto java
+        Categoria categ = service.fromDTO(categoria);
+        categ = service.save(categ);
         
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}").buildAndExpand(categoria.getId()).toUri();//retorna a uri do novo objecto criado
+                .path("/{id}").buildAndExpand(categ.getId()).toUri();//retorna a uri do novo objecto criado
         
         return ResponseEntity.created(uri).build(); //retorna o codigo 201 que indica sucesso ao salvar novo objecto
     }
@@ -80,7 +82,8 @@ public class CategoriaResource {
     }
     
     @RequestMapping(value="/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Void> edit(@RequestBody Categoria categoria, @PathVariable Integer id) {
+    public ResponseEntity<Void> edit(@Valid @RequestBody CategoriaDTO categoriaDTO, @PathVariable Integer id) {
+        Categoria categoria = service.fromDTO(categoriaDTO);
         categoria.setId(id);
         categoria = service.edit(categoria);
         

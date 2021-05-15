@@ -2,6 +2,8 @@ package com.webapplication.demo.dto;
 
 import com.webapplication.demo.domain.Categoria;
 import java.io.Serializable;
+import javax.validation.constraints.NotEmpty;
+import org.hibernate.validator.constraints.Length;
 
 /**
  *
@@ -10,14 +12,17 @@ import java.io.Serializable;
 public class CategoriaDTO implements Serializable {
     
     private Integer id;
-    private String name;
+    
+    @NotEmpty(message="Preechimento obrigatório")
+    @Length(min = 5, max = 80, message = "O tamanho deve ser entre 5 e 80 caracteres")
+    private String nome;
 
     public CategoriaDTO() {
     }
 
     public CategoriaDTO(Categoria categoria) {
         id = categoria.getId();
-        name = categoria.getNome();
+        nome = categoria.getNome();
     }
 
     public Integer getId() {
@@ -28,12 +33,12 @@ public class CategoriaDTO implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getNome() {
+        return nome;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
     
 }
