@@ -13,6 +13,7 @@ import com.webapplication.demo.services.exceptions.ObjectNotFoundException;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -45,7 +46,7 @@ public class ClienteService {
     public Cliente findById(Integer id) {
         Optional<Cliente> cliente = cr.findById(id);
         
-        return cliente.orElseThrow(() -> new ObjectNotFoundException("Cidade nao existe."));
+        return cliente.orElseThrow(() -> new ObjectNotFoundException("Cliente nao existe."));
     }
     
     public Page<Cliente> findPage(Integer page, Integer size, String direction, String orderBy) {
@@ -63,8 +64,8 @@ public class ClienteService {
         findById(id);
         try {
             cr.deleteById(id);
-        } catch(DataIntegrityException e) {
-            throw new DataIntegrityException("Cliente nao pode ser removido porque ha entidades relacionadas");
+        } catch(DataIntegrityViolationException e) {
+            throw new DataIntegrityException("Cliente nao pode ser removido porque ha pedidos relacionadas");
         }
     }
     
