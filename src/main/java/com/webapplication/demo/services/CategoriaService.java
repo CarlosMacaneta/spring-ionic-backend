@@ -58,7 +58,7 @@ public class CategoriaService {
         }
     }
     
-    public Page findPage(Integer page, Integer size, String direction, String orderBy) {
+    public Page<Categoria> findPage(Integer page, Integer size, String direction, String orderBy) {
         PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.valueOf(direction), orderBy);
         
         return cr.findAll(pageRequest);
