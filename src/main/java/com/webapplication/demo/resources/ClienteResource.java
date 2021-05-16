@@ -2,7 +2,9 @@ package com.webapplication.demo.resources;
 
 import com.webapplication.demo.domain.Cliente;
 import com.webapplication.demo.dto.ClienteDTO;
+import com.webapplication.demo.dto.ClienteNewDTO;
 import com.webapplication.demo.services.ClienteService;
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 /**
  *
@@ -26,6 +29,16 @@ public class ClienteResource {
     
     @Autowired
     private ClienteService cs;
+    
+    
+    @RequestMapping(method = RequestMethod.POST)
+    public ResponseEntity<Void> create(@Valid @RequestBody ClienteNewDTO cliente) {
+        Cliente c = cs.save(cliente);
+        URI uri = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path("/{id}").buildAndExpand(c.getId()).toUri();
+        return ResponseEntity.created(uri).build();
+    }
+    
     
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<List<ClienteDTO>> findAll() {
