@@ -1,6 +1,7 @@
 package com.webapplication.demo.services;
 
 import com.webapplication.demo.domain.Categoria;
+import com.webapplication.demo.domain.Cliente;
 import com.webapplication.demo.dto.CategoriaDTO;
 import com.webapplication.demo.repositories.CategoriaRepository;
 import com.webapplication.demo.services.exceptions.DataIntegrityException;
@@ -44,9 +45,9 @@ public class CategoriaService {
      * @param categoria
      * @return 
      */
-    public Categoria edit(Categoria categoria) {
-        findById(categoria.getId()); //certificando-se da exixstencia da categoria
-        return cr.save(categoria);
+    public Categoria edit(CategoriaDTO categoria) {
+        Categoria categ = findById(categoria.getId());
+        return updateData(categ, fromDTO(categoria));
     }
     
     public void delete(Integer id) {
@@ -66,5 +67,16 @@ public class CategoriaService {
     
     public Categoria fromDTO(CategoriaDTO categoriaDTO) {
         return new Categoria(categoriaDTO.getId(), categoriaDTO.getNome());
+    }
+    
+    /**
+     * 
+     * @param c1 the new object that is going to be saved with all new data
+     * @param c2 the object with updated proprieties
+     */
+    private Categoria updateData(Categoria c1, Categoria c2) {
+        c1.setNome(c2.getNome());
+        
+        return cr.save(c1);
     }
 }
