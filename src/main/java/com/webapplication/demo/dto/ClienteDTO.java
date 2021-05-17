@@ -1,11 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.webapplication.demo.dto;
 
 import com.webapplication.demo.domain.Cliente;
+import com.webapplication.demo.services.validation.ClienteUpdate;
 import java.io.Serializable;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
@@ -15,6 +11,7 @@ import org.hibernate.validator.constraints.Length;
  *
  * @author CarlosMacaneta
  */
+@ClienteUpdate
 public class ClienteDTO implements Serializable {
     
     private Integer id;
