@@ -1,6 +1,7 @@
 package com.webapplication.demo.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.webapplication.demo.domain.enums.EstadoPagamento;
 import java.util.Date;
 import javax.persistence.Entity;
@@ -10,6 +11,7 @@ import javax.persistence.Entity;
  * @author CarlosMacaneta
  */
 @Entity
+@JsonTypeName("pagamentoComBoleto")
 public class PagamentoComBoleto extends Pagamento {
  
     @JsonFormat(pattern = "dd/MM/yyyy")

@@ -1,6 +1,7 @@
 package com.webapplication.demo.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.webapplication.demo.domain.enums.EstadoPagamento;
 import java.io.Serializable;
 import java.util.Objects;
@@ -18,6 +19,7 @@ import javax.persistence.OneToOne;
  */
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED) //superclass
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
 public abstract class Pagamento implements Serializable {
     
     @Id//como pagamento tem relacionamento 1:1 com pedido nao precisa colocar o generated value

@@ -1,7 +1,7 @@
 package com.webapplication.demo.domain;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.webapplication.demo.domain.enums.EstadoPagamento;
-import java.io.Serializable;
 import javax.persistence.Entity;
 
 /**
@@ -9,6 +9,7 @@ import javax.persistence.Entity;
  * @author CarlosMacaneta
  */
 @Entity
+@JsonTypeName("pagamentoComCartao")
 public class PagamentoComCartao extends Pagamento {
     
     
