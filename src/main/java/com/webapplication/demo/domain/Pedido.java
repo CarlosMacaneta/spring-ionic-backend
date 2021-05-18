@@ -103,6 +103,14 @@ public class Pedido implements Serializable {
         this.itens = itens;
     }
     
+    public double getValorTotal() {
+        double valor = 0;
+        
+        valor = itens.stream().map(item -> item.getSubTotal()).reduce(valor, (accumulator, _item) -> accumulator + _item);
+        
+        return valor;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 5;
