@@ -3,8 +3,11 @@ package com.webapplication.demo.domain;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.io.Serializable;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
 import javax.persistence.CascadeType;
@@ -134,6 +137,24 @@ public class Pedido implements Serializable {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public String toString() {
+        NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyy HH:mm:ss");
+        StringBuilder sb = new StringBuilder();
+        sb.append("Pedido número: ").append(getId());
+        sb.append(", Instante: ").append(sdf.format(getInstante()));
+        sb.append(", Cliente: ").append(getCliente().getNome());
+        sb.append(", Situação de pagamento: ").append(getPagamento().getEstado().getDescricao());
+        sb.append("\nDetalhes\n");
+        getItens().forEach(ip -> {
+            sb.append(ip.toString());
+        });
+        sb.append(", Valor total: ").append(nf.format(getValorTotal()));
+        sb.append("\n");
+        return sb.toString();
     }
     
 }

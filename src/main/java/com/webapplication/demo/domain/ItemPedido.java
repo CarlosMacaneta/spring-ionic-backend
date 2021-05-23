@@ -2,6 +2,9 @@ package com.webapplication.demo.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 
@@ -84,4 +87,18 @@ public class ItemPedido implements Serializable {
     public double getSubTotal() {
         return (preco - desconto) *  quantidade;
     }
+
+    @Override
+    public String toString() {
+        NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+        
+        StringBuilder sb = new StringBuilder();
+        sb.append("Nome: ").append(getProduto().getNome());
+        sb.append(", Qte: ").append(getQuantidade());
+        sb.append(", Preço unitário: ").append(nf.format(getPreco()));
+        sb.append(", Subtotal: ").append(nf.format(getSubTotal()));
+        sb.append("\n");
+        return sb.toString();
+    }
+    
 }

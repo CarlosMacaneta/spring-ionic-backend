@@ -32,7 +32,7 @@ public class PedidoResource {
         return ResponseEntity.created(uri).build();
     }
     
-    @RequestMapping(value = "/{id}")
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<?> findById(@PathVariable Integer id) {
         Pedido pedido = pedidoService.findById(id);
         
