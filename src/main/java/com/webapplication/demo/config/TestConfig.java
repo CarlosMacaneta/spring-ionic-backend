@@ -1,6 +1,8 @@
 package com.webapplication.demo.config;
 
 import com.webapplication.demo.services.DBService;
+import com.webapplication.demo.services.EmailService;
+import com.webapplication.demo.services.MockEMailService;
 import java.text.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -23,5 +25,10 @@ public class TestConfig {
         dBService.instanciateTestDataBase();
         
         return true;
+    }
+    
+    @Bean //metodos com anotacao bean fica visivel como um componente do sistema
+    public EmailService emailService() {
+        return new MockEMailService();
     }
 }
