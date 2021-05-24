@@ -1,15 +1,19 @@
 package com.webapplication.demo.config;
 
+import com.webapplication.demo.security.JWTAuthenticationFilter;
+import com.webapplication.demo.security.JWTUtils;
 import java.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -25,6 +29,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     
     @Autowired
     private Environment env;
+    
+    @Autowired
+    private JWTUtils jwtUtils;
+    
+    @Autowired
+    private UserDetailsService userDetailsService;
     
     //requisicoes liberadas(elas nao necessitam de autenticacao)
     private static final String[] PUBLIC_MATCHERS = {
@@ -49,10 +59,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //dado permisao de acesso as requisicoes liberadas e restringindo acesso para as que nao foram liberadas
         http.authorizeRequests().antMatchers(HttpMethod.GET, PUBLIC_MATCHERS_GET).permitAll()
                 .antMatchers(PUBLIC_MATCHERS).permitAll().anyRequest().authenticated();
-        
+        http.addFilter(new JWTAuthenticationFilter(authenticationManager() , jwtUtils));
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);//garante que sessoes de usario nao sejam criadas
     }
+
+    /*
+    * identifica o user detail e o tipo de algoritmo de codificacao da senha
+    */
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
+    }
  
+    
+    
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
