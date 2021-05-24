@@ -36,6 +36,10 @@ public class Cliente implements Serializable {
     private String cpfOuCnpj;
     private Integer tipoCliente;
     
+    @JsonIgnore
+    
+    private String senha;
+    
     /*
         Annotation used to indicate that annotated property is part of two-way linkage 
         between fields; and that its role is "parent" (or "forward") link
@@ -56,12 +60,13 @@ public class Cliente implements Serializable {
     public Cliente() {
     }
 
-    public Cliente(Integer id, String nome, String email, String cpfOuCnpj, TipoCliente tipoCliente) {
+    public Cliente(Integer id, String nome, String email, String cpfOuCnpj, TipoCliente tipoCliente, String senha) {
         this.id = id;
         this.nome = nome;
         this.email = email;
         this.cpfOuCnpj = cpfOuCnpj;
         this.tipoCliente = tipoCliente == null ? null : tipoCliente.getCodigo();
+        this.senha = senha;
     }
 
     public Integer getId() {
@@ -122,6 +127,14 @@ public class Cliente implements Serializable {
 
     public List<Pedido> getPedidos() {
         return pedidos;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
     
     @Override

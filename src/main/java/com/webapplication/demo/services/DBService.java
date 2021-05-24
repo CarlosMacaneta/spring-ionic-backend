@@ -26,6 +26,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 /**
@@ -35,6 +36,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class DBService {
     
+    @Autowired
+    private BCryptPasswordEncoder passEncoder;
     @Autowired
     private CategoriaRepository categoriaRepository;
     @Autowired
@@ -113,7 +116,7 @@ public class DBService {
         estadoRepository.saveAll(Arrays.asList(e1, e2));
         cidadeRepository.saveAll(Arrays.asList(c1_, c2_, c3_));
         
-        Cliente cl1 = new Cliente(null, "Maria Silva", "carlosmacaneta95@gmail.com", "313484646", TipoCliente.PESSOA_FISICA);
+        Cliente cl1 = new Cliente(null, "Maria Silva", "carlosmacaneta95@gmail.com", "313484646", TipoCliente.PESSOA_FISICA, passEncoder.encode("123"));
         cl1.getTelefones().addAll(Arrays.asList("46516516546", "646160548"));
         
         Endereco endereco1 = new Endereco(null, "Rua Flores", "300", "Apto 303", "Jardim", "48648416", cl1, c1_); 
