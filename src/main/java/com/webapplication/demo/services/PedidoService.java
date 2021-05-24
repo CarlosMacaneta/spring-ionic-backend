@@ -13,8 +13,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  *
@@ -67,7 +65,7 @@ public class PedidoService {
             item.setPedido(pedido);
         }
         itemRepository.saveAll(pedido.getItens());
-        emailService.sendOrderConfirmationEmail(pedido);
+        emailService.sendOrderConfirmationHtmlEmail(pedido);
         return pedido;
     }
     
