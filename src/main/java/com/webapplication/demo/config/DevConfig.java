@@ -1,6 +1,8 @@
 package com.webapplication.demo.config;
 
 import com.webapplication.demo.services.DBService;
+import com.webapplication.demo.services.EmailService;
+import com.webapplication.demo.services.SmtpEmailService;
 import java.text.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,4 +33,9 @@ public class DevConfig {
         
         return true;
     }
-}
+    
+    @Bean
+    public EmailService emailService() {
+        return new SmtpEmailService();
+    }
+} 
