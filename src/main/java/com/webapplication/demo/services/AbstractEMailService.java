@@ -1,5 +1,6 @@
 package com.webapplication.demo.services;
 
+import com.webapplication.demo.domain.Cliente;
 import com.webapplication.demo.domain.Pedido;
 import java.util.Date;
 import javax.mail.MessagingException;
@@ -72,5 +73,23 @@ public abstract class AbstractEMailService implements EmailService {
         mmh.setText(htmlFromTemplatePedido(pedido), true);
         
         return mm;
+    }
+    
+    @Override
+    public void sendNewPasswordEmail(Cliente cliente, String newPassword) {
+        SimpleMailMessage smm = prepareNewPasswordEmail(cliente, newPassword);
+        sendEmail(smm);
+    }
+
+    protected SimpleMailMessage prepareNewPasswordEmail(Cliente cliente, String newPassword) {
+        SimpleMailMessage sm = new SimpleMailMessage();
+        
+        sm.setTo(cliente.getEmail());
+        sm.setFrom(sender);
+        sm.setSubject("Solicitação de nova senha");
+        sm.setSentDate(new Date(System.currentTimeMillis()));
+        sm.setText("Nova senha: "+newPassword);
+        
+        return sm;
     }
 }

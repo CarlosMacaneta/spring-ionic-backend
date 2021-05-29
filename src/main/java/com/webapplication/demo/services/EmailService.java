@@ -1,5 +1,6 @@
 package com.webapplication.demo.services;
 
+import com.webapplication.demo.domain.Cliente;
 import com.webapplication.demo.domain.Pedido;
 import javax.mail.internet.MimeMessage;
 import org.springframework.mail.SimpleMailMessage;
@@ -15,4 +16,6 @@ public interface EmailService {
     
     public void sendOrderConfirmationHtmlEmail(Pedido pedido);
     public void sendHtmlEmail(MimeMessage msg);
+
+    public void sendNewPasswordEmail(Cliente cliente, String newPassword);
 }
