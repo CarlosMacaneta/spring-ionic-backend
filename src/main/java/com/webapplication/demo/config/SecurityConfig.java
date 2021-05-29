@@ -1,6 +1,7 @@
 package com.webapplication.demo.config;
 
 import com.webapplication.demo.security.JWTAuthenticationFilter;
+import com.webapplication.demo.security.JWTAuthorizationFilter;
 import com.webapplication.demo.security.JWTUtils;
 import java.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +45,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     //dando acesso apenas de leitura de dados ao visitante
     private static final String[] PUBLIC_MATCHERS_GET = {
         "/produtos/**",
-        "/categorias/**"
+        "/categorias/**",
+        "/clientes/**"
     };
     
     @Override
@@ -60,6 +62,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers(HttpMethod.GET, PUBLIC_MATCHERS_GET).permitAll()
                 .antMatchers(PUBLIC_MATCHERS).permitAll().anyRequest().authenticated();
         http.addFilter(new JWTAuthenticationFilter(authenticationManager() , jwtUtils));
+        http.addFilter(new JWTAuthorizationFilter(authenticationManager() , jwtUtils, userDetailsService));
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);//garante que sessoes de usario nao sejam criadas
     }
 
