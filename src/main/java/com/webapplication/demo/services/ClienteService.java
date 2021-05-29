@@ -3,11 +3,14 @@ package com.webapplication.demo.services;
 import com.webapplication.demo.domain.Cidade;
 import com.webapplication.demo.domain.Cliente;
 import com.webapplication.demo.domain.Endereco;
+import com.webapplication.demo.domain.enums.Perfil;
 import com.webapplication.demo.domain.enums.TipoCliente;
 import com.webapplication.demo.dto.ClienteDTO;
 import com.webapplication.demo.dto.ClienteNewDTO;
 import com.webapplication.demo.repositories.ClienteRepository;
 import com.webapplication.demo.repositories.EnderecoRepository;
+import com.webapplication.demo.security.UserSpringSecurity;
+import com.webapplication.demo.services.exceptions.AuthorizationException;
 import com.webapplication.demo.services.exceptions.DataIntegrityException;
 import com.webapplication.demo.services.exceptions.ObjectNotFoundException;
 import java.util.List;
@@ -48,6 +51,13 @@ public class ClienteService {
     }
     
     public Cliente findById(Integer id) {
+        
+        UserSpringSecurity user = UserService.authenticated();
+        
+        if (user == null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
+            throw new AuthorizationException("Acesso negado!");
+        }
+        
         Optional<Cliente> cliente = cr.findById(id);
         
         return cliente.orElseThrow(() -> new ObjectNotFoundException("Cliente nao existe."));
