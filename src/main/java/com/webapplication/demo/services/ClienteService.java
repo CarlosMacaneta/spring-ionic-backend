@@ -13,6 +13,7 @@ import com.webapplication.demo.security.UserSpringSecurity;
 import com.webapplication.demo.services.exceptions.AuthorizationException;
 import com.webapplication.demo.services.exceptions.DataIntegrityException;
 import com.webapplication.demo.services.exceptions.ObjectNotFoundException;
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -38,6 +40,9 @@ public class ClienteService {
     private ClienteRepository cr;
     @Autowired
     private EnderecoRepository er;
+    
+    @Autowired
+    private S3Service s3Service;
     
     @Transactional//garante o cliente o endereco sejam salvos na mesma transacao do banco de dados
     public Cliente save(ClienteNewDTO clienteNewDTO) {
@@ -119,5 +124,9 @@ public class ClienteService {
         c1.setEmail(c2.getEmail());
         
         return cr.save(c1);
+    }
+    
+    public URI updoadProfilePicture(MultipartFile multipartFile) {
+        return s3Service.uploadFile(multipartFile);
     }
 }
