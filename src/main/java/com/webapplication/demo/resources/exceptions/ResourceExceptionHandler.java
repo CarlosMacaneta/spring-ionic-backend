@@ -1,7 +1,11 @@
 package com.webapplication.demo.resources.exceptions;
 
+import com.amazonaws.AmazonClientException;
+import com.amazonaws.AmazonServiceException;
+import com.amazonaws.services.s3.model.AmazonS3Exception;
 import com.webapplication.demo.services.exceptions.AuthorizationException;
 import com.webapplication.demo.services.exceptions.DataIntegrityException;
+import com.webapplication.demo.services.exceptions.FileException;
 import com.webapplication.demo.services.exceptions.ObjectNotFoundException;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
@@ -50,5 +54,33 @@ public class ResourceExceptionHandler {
         StandardError err = new StandardError(HttpStatus.FORBIDDEN.value(), exception.getMessage(), System.currentTimeMillis());
         
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(err);
+    }
+    
+    @ExceptionHandler(FileException.class)
+    public ResponseEntity<StandardError> file(FileException exception, HttpServletRequest request) {
+        StandardError err = new StandardError(HttpStatus.BAD_REQUEST.value(), exception.getMessage(), System.currentTimeMillis());
+        
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
+    }
+    
+    @ExceptionHandler(AmazonServiceException.class)
+    public ResponseEntity<StandardError> amazonService(AmazonServiceException exception, HttpServletRequest request) {
+        StandardError err = new StandardError(HttpStatus.valueOf(exception.getErrorCode()).value(), exception.getMessage(), System.currentTimeMillis());
+        
+        return ResponseEntity.status(HttpStatus.valueOf(exception.getErrorCode()).value()).body(err);
+    }
+    
+    @ExceptionHandler(AmazonClientException.class)
+    public ResponseEntity<StandardError> amazonClient(AmazonClientException exception, HttpServletRequest request) {
+        StandardError err = new StandardError(HttpStatus.BAD_REQUEST.value(), exception.getMessage(), System.currentTimeMillis());
+        
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST.value()).body(err);
+    }
+    
+    @ExceptionHandler(AmazonS3Exception.class)
+    public ResponseEntity<StandardError> amazonS3(AmazonS3Exception exception, HttpServletRequest request) {
+        StandardError err = new StandardError(HttpStatus.BAD_REQUEST.value(), exception.getMessage(), System.currentTimeMillis());
+        
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST.value()).body(err);
     }
 }

@@ -3,6 +3,7 @@ package com.webapplication.demo.services;
 import com.amazonaws.SdkClientException;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.webapplication.demo.services.exceptions.FileException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
@@ -39,7 +40,7 @@ public class S3Service {
             
             
         } catch (IOException e) {
-            throw new RuntimeException("IOException: "+ e.getMessage());
+            throw new FileException("IOException: "+ e.getMessage());
         }
     }
     
@@ -54,7 +55,7 @@ public class S3Service {
             
             return s3Client.getUrl(bucketName, fileName).toURI();
         } catch (SdkClientException | URISyntaxException e) {
-           throw new RuntimeException(e.getMessage());
+           throw new FileException(e.getMessage());
         } 
     }
 }
