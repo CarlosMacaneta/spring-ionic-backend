@@ -52,6 +52,9 @@ public class ClienteService {
     @Value("${img.prefix.client.profile}")
     private String imagePrefix;
     
+    @Value("${img.profile.size}")
+    private Integer size;
+    
     @Transactional//garante o cliente o endereco sejam salvos na mesma transacao do banco de dados
     public Cliente save(ClienteNewDTO clienteNewDTO) {
         Cliente cliente = cr.save(fromNewDTO(clienteNewDTO));
@@ -140,7 +143,9 @@ public class ClienteService {
         
         if (user == null) throw new AuthorizationException("Acesso negado.");
         
-        BufferedImage jpgImage = imageService.getJpgImageFromFile(multipartFile);
+        BufferedImage jpgImage = imageService.cropSquare(imageService.getJpgImageFromFile(multipartFile));
+        jpgImage = imageService.resize(jpgImage, size);
+        
         String fileName = imagePrefix + user.getId() + ".jpg";
         
         return s3Service.uploadFile(imageService.getInputStream(jpgImage, "jpg"), fileName, "image");
