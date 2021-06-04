@@ -56,6 +56,13 @@ public class ClienteResource {
         return ResponseEntity.ok().body(cliente);
     }
     
+    @RequestMapping(value="/email", method = RequestMethod.GET)
+    public ResponseEntity<Cliente> findByEmail(@RequestParam(value="email") String email) {
+        Cliente cliente = cs.findByEmail(email);
+        
+        return ResponseEntity.ok().body(cliente);
+    }
+    
     @PreAuthorize("hasAnyRole('ADMIN')")
     @RequestMapping(value = "/page", method = RequestMethod.GET)
     public ResponseEntity<Page<ClienteDTO>> findPage(

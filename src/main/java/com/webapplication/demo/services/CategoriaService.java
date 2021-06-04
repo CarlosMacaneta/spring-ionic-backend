@@ -1,7 +1,6 @@
 package com.webapplication.demo.services;
 
 import com.webapplication.demo.domain.Categoria;
-import com.webapplication.demo.domain.Cliente;
 import com.webapplication.demo.dto.CategoriaDTO;
 import com.webapplication.demo.repositories.CategoriaRepository;
 import com.webapplication.demo.services.exceptions.DataIntegrityException;

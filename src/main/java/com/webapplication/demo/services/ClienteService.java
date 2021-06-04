@@ -79,6 +79,19 @@ public class ClienteService {
         return cliente.orElseThrow(() -> new ObjectNotFoundException("Cliente nao existe."));
     }
     
+    public Cliente findByEmail(String email) {
+        UserSpringSecurity user = UserService.authenticated();
+        
+        if (user == null || !user.hasRole(Perfil.ADMIN) && !email.equals(user.getUsername())) {
+            throw new AuthorizationException("Acesso negado!");
+        }
+        
+        Cliente cliente = cr.findByEmail(email);
+        if (cliente == null) throw new ObjectNotFoundException("Cliente nao existe.");
+        
+        return cliente;
+    }
+    
     public Page<Cliente> findPage(Integer page, Integer size, String direction, String orderBy) {
         PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.valueOf(direction), orderBy);
         
